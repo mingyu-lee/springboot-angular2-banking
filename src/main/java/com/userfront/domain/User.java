@@ -160,10 +160,6 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", enabled=" + enabled +
-                ", primaryAccount=" + primaryAccount +
-                ", savingsAccount=" + savingsAccount +
-                ", appointmentList=" + appointmentList +
-                ", recipientList=" + recipientList +
                 ", userRoles=" + userRoles +
                 '}';
     }
@@ -177,17 +173,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

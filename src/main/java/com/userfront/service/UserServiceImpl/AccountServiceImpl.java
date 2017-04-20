@@ -44,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
     public SavingsAccount createSavingsAccount() {
 
         SavingsAccount savingsAccount = new SavingsAccount();
-        savingsAccount.setAccountBalacne(new BigDecimal(0.0));
+        savingsAccount.setAccountBalance(new BigDecimal(0.0));
         savingsAccount.setAccountNumber(accountGen());
 
         savingsAccountDao.save(savingsAccount);
