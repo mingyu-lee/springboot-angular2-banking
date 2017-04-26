@@ -1,8 +1,8 @@
 package com.userfront.service;
 
-import com.userfront.domain.PrimaryTransaction;
-import com.userfront.domain.SavingsTransaction;
+import com.userfront.domain.*;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -18,4 +18,17 @@ public interface TransactionService {
 
     void saveSavingsDepositTransaction(SavingsTransaction savingsTransaction);
 
+    void savePrimaryWithdrawTransaction(PrimaryTransaction primaryTransaction);
+
+    void saveSavingsWithdrawTransaction(SavingsTransaction savingsTransaction);
+
+    void betweenAccountsTransfer(String transferFrom, String transferTo, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception;
+
+    Recipient findRecipientByName(String recipientName);
+
+    List<Recipient> findRecipientList(Principal principal);
+
+    void deleteRecipientByName(String recipientName);
+
+    void saveRecipient(Recipient recipient);
 }
