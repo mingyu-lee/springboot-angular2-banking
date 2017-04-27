@@ -128,4 +128,30 @@ public class TransactionServiceImpl implements TransactionService {
     public void saveRecipient(Recipient recipient) {
         recipientDao.save(recipient);
     }
+
+    @Override
+    public void toSomeoneElseTransfer(Recipient recipient, String accountType, String amount,
+                                      PrimaryAccount primaryAccount, SavingsAccount savingsAccount) {
+        if ("Primary".equalsIgnoreCase(accountType)) {
+            primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().subtract(new BigDecimal(amount)));
+            primaryAccountDao.save(primaryAccount);
+
+            Date date = new Date();
+
+            PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Transfer to recipient "+recipient.getName(),
+                    "Transfer", "Finished", Double.parseDouble(amount), primaryAccount.getAccountBalance(), primaryAccount);
+
+            primaryTransactionDao.save(primaryTransaction);
+        } else if ("Savings".equalsIgnoreCase(accountType)) {
+            savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(new BigDecimal(amount)));
+            savingsAccountDao.save(savingsAccount);
+
+            Date date = new Date();
+
+            SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Transfer to recipient "+recipient.getName(),
+                    "Tansfer", "Finished", Double.parseDouble(amount), savingsAccount.getAccountBalance(), savingsAccount);
+
+            savingsAccountDao.save(savingsAccount);
+        }
+    }
 }
