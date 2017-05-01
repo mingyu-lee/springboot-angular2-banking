@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
 
     public boolean checkUserExists(String username, String email) {
-        if (checkUsernameExists(username) || checkEmailExists(username)) {
+        if (checkUsernameExists(username) || checkEmailExists(email)) {
             return true;
         } else {
             return false;
@@ -98,4 +99,21 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    public List<User> findUserList() {
+        return userDao.findAll();
+    }
+
+    public void enableUser(String username) {
+        User user = findByUsername(username);
+        user.setEnabled(true);
+        userDao.save(user);
+    }
+
+    public void disableUser(String username) {
+        User user = findByUsername(username);
+        user.setEnabled(false);
+        System.out.println(user.isEnabled());
+        userDao.save(user);
+        System.out.println(username + " ids disabled.");
+    }
 }
