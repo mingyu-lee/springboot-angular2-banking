@@ -2,7 +2,6 @@ package com.userfront.config;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
