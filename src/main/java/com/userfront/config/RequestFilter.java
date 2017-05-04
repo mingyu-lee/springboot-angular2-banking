@@ -16,13 +16,7 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RequestFilter implements Filter {
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
-
-    @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
 
@@ -32,24 +26,24 @@ public class RequestFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
-        if (!("OPTIONS").equalsIgnoreCase(request.getMethod())) {
+        if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
             try {
                 chain.doFilter(req, res);
-            } catch (Exception e) {
+            } catch(Exception e) {
                 e.printStackTrace();
             }
         } else {
             System.out.println("Pre-flight");
-            response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE");
+            response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE");
             response.setHeader("Access-Control-Max-Age", "3600");
-            response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, " +
-                "access-control-request-headers, access-control-request-method, accept, origin, authorization, x-requested-with");
+            response.setHeader("Access-Control-Allow-Headers", "authorization, content-type," +
+                    "access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with");
             response.setStatus(HttpServletResponse.SC_OK);
         }
-    }
-
-    @Override
-    public void destroy() {
 
     }
+
+    public void init(FilterConfig filterConfig) {}
+
+    public void destroy() {}
 }

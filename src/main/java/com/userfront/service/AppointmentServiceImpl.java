@@ -21,7 +21,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     public List<Appointment> findAll() {
-        return (List<Appointment>) appointmentDao.findAll();
+        return appointmentDao.findAll();
     }
 
     public Appointment findAppointment(Long id) {
