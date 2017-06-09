@@ -5,7 +5,9 @@ import com.userfront.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -15,27 +17,29 @@ import static org.junit.Assert.assertThat;
  * Created by 이민규 on 2017-06-07.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserDaoTest {
 
     @Autowired
-    UserDao userDao;
+    private TestEntityManager entityManager;
+
+    @Autowired
+    private UserDao userDao;
 
     @Test
     public void addAndGet() throws Exception {
-        User testUser = new User();
-        UserDao testDao = userDao;
+        User user = new User();
 
-        testUser.setUsername("test2");
-        testUser.setPassword("11114445");
-        testUser.setEmail("test2@tset.com");
+        user.setUsername("test100");
+        user.setPassword("1q2w3e4r5t");
+        user.setEmail("test100@test.com");
 
-        testDao.save(testUser);
+        this.entityManager.persist(user);
+        User testUser = this.userDao.findByUsername("test100");
 
-        User user2 = testDao.findByUsername("test");
-
-        assertThat(user2.getUsername(), is(testUser.getUsername()));
-        assertThat(user2.getPassword(), is(testUser.getPassword()));
+        assertThat(user.getUsername(), is(testUser.getUsername()));
+        assertThat(user.getPassword(), is(testUser.getPassword()));
     }
 
 }
